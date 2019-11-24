@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './app.css';
-import { loadModule } from './utils';
+import { loadAllModules, loadModule } from './utils';
 
 function App() {
   return (
@@ -16,6 +16,9 @@ function App() {
     >
       <h2>This is Shell</h2>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <div>
+          <button onClick={loadAllModules}>Load all applications</button>
+        </div>
         <div>
           <button onClick={() => loadModule('SolidCounter')}>
             Load application 1

@@ -11,7 +11,7 @@ export function loadAllModules() {
       response.docs.forEach((doc: any) => {
         renderModule(
           doc.jsUrl,
-          document.getElementById(doc.targetHTMLId)!,
+          document.querySelector(doc.targetSelector)!,
           doc.moduleName,
         );
       });
@@ -31,11 +31,9 @@ export function loadModule(moduleName: string) {
     .then(a => a.json())
     .then(response => {
       response.docs.forEach((doc: any) => {
-        renderModule(
-          doc.jsUrl,
-          document.getElementById(doc.targetHTMLId)!,
-          doc.moduleName,
-        );
+        const target = document.querySelector(doc.targetSelector)!;
+
+        renderModule(doc.jsUrl, target, doc.moduleName);
       });
     });
 }

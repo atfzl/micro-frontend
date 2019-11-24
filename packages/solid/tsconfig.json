@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "declaration": false,
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "outDir": "public",
+    "lib": ["es6", "es7", "es2017", "dom"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/babel-plugin-jsx-dom-expressions",
+      "./types"
+    ]
+  },
+  "exclude": ["./#/**/*.test.ts", "./#/**/*.test.tsx"]
+}

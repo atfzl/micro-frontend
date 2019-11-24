@@ -15,9 +15,8 @@ function App() {
   return (
     <div
       className={css`
-        height: 100%;
-        width: 100%;
         background-color: papayawhip;
+        padding: 20px;
       `}
     >
       Solid Counter: {state.counter}

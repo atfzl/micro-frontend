@@ -8,14 +8,20 @@ ReactDOM.render(<App />, document.getElementById('root')!);
 
 loadModule(
   'http://localhost:8081/bundle.js',
-  document.getElementById('solid-module')!,
-  'Solid',
+  document.getElementById('solid-counter-module')!,
+  'SolidCounter',
+);
+
+loadModule(
+  'http://localhost:8082/bundle.js',
+  document.getElementById('react-counter-module')!,
+  'ReactCounter',
 );
 
 async function loadModule(
   src: string,
   target: HTMLElement,
-  moduleName: 'Solid',
+  moduleName: string,
 ) {
   await loadScript(src);
   (window as any).MicroApp[moduleName].render(target);

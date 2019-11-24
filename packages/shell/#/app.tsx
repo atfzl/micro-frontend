@@ -4,17 +4,23 @@ import './app.css';
 
 function App() {
   React.useEffect(() => {
-    loadModule(
-      'http://localhost:8081/bundle.js',
-      document.getElementById('solid-counter-module')!,
-      'SolidCounter',
-    );
-
-    loadModule(
-      'http://localhost:8082/bundle.js',
-      document.getElementById('react-counter-module')!,
-      'ReactCounter',
-    );
+    fetch('http://localhost:5984/micro-frontend/_find', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ selector: { enabled: { $eq: true } } }),
+    })
+      .then(a => a.json())
+      .then(response => {
+        response.docs.forEach((doc: any) => {
+          loadModule(
+            doc.jsUrl,
+            document.getElementById(doc.targetHTMLId)!,
+            doc.packageName,
+          );
+        });
+      });
   });
 
   return (

@@ -16,5 +16,5 @@
     "outDir": "public",
     "lib": ["es6", "es7", "es2017", "dom"]
   },
-  "exclude": ["./#/**/*.test.ts", "./#/**/*.test.tsx"]
+  "exclude": ["./#/**/*.test.ts", "./#/**/*.test.tsx", "./packages/**"]
 }

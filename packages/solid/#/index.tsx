@@ -1,20 +1,12 @@
 import { render } from 'solid-js/dom';
 import App from './app';
 
-const renderApp = () => {
-  const appElement = document.getElementById('root')!;
-
-  while (appElement.firstChild) {
-    appElement.removeChild(appElement.firstChild);
-  }
-
-  render(() => <App />, appElement);
+const renderApp = (target: HTMLElement) => {
+  render(() => <App />, target);
 };
 
-if (module.hot) {
-  module.hot.accept();
-
-  renderApp();
-} else {
-  renderApp();
-}
+Object.assign((window as any).MicroApp, {
+  Solid: {
+    render: renderApp,
+  },
+});

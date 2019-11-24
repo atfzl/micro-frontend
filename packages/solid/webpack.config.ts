@@ -1,5 +1,4 @@
 import * as ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as path from 'path';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
@@ -23,10 +22,6 @@ module.exports = {
     modules: ['node_modules', './'],
   },
 
-  externals: {
-    'pouchdb-promise': 'Promise',
-  },
-
   module: {
     rules: [
       { test: /\.(ts|js)x?$/, loader: 'babel-loader', exclude: /node_modules/ },
@@ -36,7 +31,6 @@ module.exports = {
 
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
-    new HtmlWebpackPlugin({ template: '#/index.html' }),
     isAnalyze && new BundleAnalyzerPlugin(),
   ].filter(a => !!a),
 

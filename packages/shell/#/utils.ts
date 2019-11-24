@@ -1,4 +1,46 @@
-export async function loadModule(
+export function loadAllModules() {
+  fetch('http://localhost:5984/micro-frontend/_find', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ selector: { enabled: { $eq: true } } }),
+  })
+    .then(a => a.json())
+    .then(response => {
+      response.docs.forEach((doc: any) => {
+        renderModule(
+          doc.jsUrl,
+          document.getElementById(doc.targetHTMLId)!,
+          doc.moduleName,
+        );
+      });
+    });
+}
+
+export function loadModule(moduleName: string) {
+  fetch('http://localhost:5984/micro-frontend/_find', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      selector: { moduleName: { $eq: moduleName }, enabled: { $eq: true } },
+    }),
+  })
+    .then(a => a.json())
+    .then(response => {
+      response.docs.forEach((doc: any) => {
+        renderModule(
+          doc.jsUrl,
+          document.getElementById(doc.targetHTMLId)!,
+          doc.moduleName,
+        );
+      });
+    });
+}
+
+async function renderModule(
   src: string,
   target: HTMLElement,
   moduleName: string,

@@ -1,28 +1,8 @@
-import { loadModule } from '#/utils';
 import * as React from 'react';
 import './app.css';
+import { loadModule } from './utils';
 
 function App() {
-  React.useEffect(() => {
-    fetch('http://localhost:5984/micro-frontend/_find', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ selector: { enabled: { $eq: true } } }),
-    })
-      .then(a => a.json())
-      .then(response => {
-        response.docs.forEach((doc: any) => {
-          loadModule(
-            doc.jsUrl,
-            document.getElementById(doc.targetHTMLId)!,
-            doc.packageName,
-          );
-        });
-      });
-  });
-
   return (
     <div
       style={{
@@ -36,8 +16,18 @@ function App() {
     >
       <h2>This is Shell</h2>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        <div id="solid-counter-module"></div>
-        <div id="react-counter-module"></div>
+        <div>
+          <button onClick={() => loadModule('SolidCounter')}>
+            Load application 1
+          </button>
+          <div id="solid-counter-module"></div>
+        </div>
+        <div>
+          <button onClick={() => loadModule('ReactCounter')}>
+            Load application 2
+          </button>
+          <div id="react-counter-module"></div>
+        </div>
       </div>
     </div>
   );

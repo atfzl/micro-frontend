@@ -6,14 +6,21 @@ import * as ReactDOM from 'react-dom';
 
 ReactDOM.render(<App />, document.getElementById('root')!);
 
-async function loadModule(src: string, target: HTMLElement) {
-  await loadScript(src);
-  (window as any).MicroApp.Solid.render(target);
-}
 loadModule(
   'http://localhost:8081/bundle.js',
   document.getElementById('solid-module')!,
+  'Solid',
 );
+
+async function loadModule(
+  src: string,
+  target: HTMLElement,
+  moduleName: 'Solid',
+) {
+  await loadScript(src);
+  (window as any).MicroApp[moduleName].render(target);
+  console.info(`Module: ${moduleName} loaded successfully`);
+}
 
 function loadScript(src: string) {
   return new Promise(resolve => {

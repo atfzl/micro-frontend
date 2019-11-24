@@ -4,7 +4,7 @@ export function loadAllModules() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ selector: { enabled: { $eq: true } } }),
+    body: JSON.stringify({ selector: { active: { $eq: true } } }),
   })
     .then(a => a.json())
     .then(response => {
@@ -25,7 +25,7 @@ export function loadModule(moduleName: string) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      selector: { moduleName: { $eq: moduleName }, enabled: { $eq: true } },
+      selector: { moduleName: { $eq: moduleName }, active: { $eq: true } },
     }),
   })
     .then(a => a.json())

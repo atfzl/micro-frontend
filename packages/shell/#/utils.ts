@@ -9,13 +9,14 @@ export function loadAllModules() {
     .then(a => a.json())
     .then(response => {
       response.docs.forEach((doc: any) => {
-        const target = document.querySelector(doc.targetSelector)!;
         renderModule(
           doc.jsUrl,
           document.querySelector(doc.targetSelector)!,
           doc.moduleName,
         );
-        renderVersion(target, doc._rev);
+        console.info(
+          `Application: ${doc.moduleName}, version: ${doc._rev.split('-')[0]}`,
+        );
       });
     });
 }
@@ -36,18 +37,11 @@ export function loadModule(moduleName: string) {
         const target = document.querySelector(doc.targetSelector)!;
 
         renderModule(doc.jsUrl, target, doc.moduleName);
-        renderVersion(target, doc._rev);
+        console.info(
+          `Application: ${doc.moduleName}, version: ${doc._rev.split('-')[0]}`,
+        );
       });
     });
-}
-
-function renderVersion(target: HTMLElement, version: string) {
-  if (
-    target.nextSibling instanceof HTMLElement &&
-    target.nextSibling.getAttribute('data-version')
-  ) {
-    target.nextSibling.innerText = `Rev: ${version.split('-')[0]}`;
-  }
 }
 
 async function renderModule(

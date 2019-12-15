@@ -24,14 +24,12 @@ function App() {
             Load application 1
           </button>
           <div id="solid-counter-module"></div>
-          <div data-version></div>
         </div>
         <div>
           <button onClick={() => loadModule('ReactCounter')}>
             Load application 2
           </button>
           <div id="react-counter-module"></div>
-          <div data-version></div>
         </div>
       </div>
     </div>

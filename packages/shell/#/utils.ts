@@ -1,4 +1,6 @@
-export function loadAllModules() {
+let modulesManifest: any = [];
+
+export function fetchModulesManifest() {
   fetch('http://localhost:5984/micro-frontend/_find', {
     method: 'POST',
     headers: {
@@ -8,53 +10,34 @@ export function loadAllModules() {
   })
     .then(a => a.json())
     .then(response => {
-      response.docs.forEach((doc: any) => {
-        renderModule(
-          doc.jsUrl,
-          document.querySelector(doc.targetSelector)!,
-          doc.moduleName,
-        );
-        console.info(
-          `Application: ${doc.moduleName}, version: ${doc._rev.split('-')[0]}`,
-        );
-      });
+      modulesManifest = response.docs;
     });
+}
+
+export function loadAllModules() {
+  modulesManifest.forEach(renderModule);
 }
 
 export function loadModule(moduleName: string) {
-  fetch('http://localhost:5984/micro-frontend/_find', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      selector: { moduleName: { $eq: moduleName }, active: { $eq: true } },
-    }),
-  })
-    .then(a => a.json())
-    .then(response => {
-      response.docs.forEach((doc: any) => {
-        const target = document.querySelector(doc.targetSelector)!;
-
-        renderModule(doc.jsUrl, target, doc.moduleName);
-        console.info(
-          `Application: ${doc.moduleName}, version: ${doc._rev.split('-')[0]}`,
-        );
-      });
-    });
+  renderModule(
+    modulesManifest.find((doc: any) => doc.moduleName === moduleName),
+  );
 }
 
-async function renderModule(
-  src: string,
-  target: HTMLElement,
-  moduleName: string,
-) {
+async function renderModule(doc: any) {
   try {
-    await loadScript(src);
-    (window as any).MicroApp[moduleName].render(target);
-    console.info(`Module: ${moduleName} loaded successfully`);
+    const target = document.querySelector(doc.targetSelector)!;
+
+    console.info(
+      `Loading Application: ${doc.moduleName}, version: ${
+        doc._rev.split('-')[0]
+      }`,
+    );
+    await loadScript(doc.jsUrl);
+    (window as any).MicroApp[doc.moduleName].render(target);
+    console.info(`Module: ${doc.moduleName} loaded successfully`);
   } catch (e) {
-    console.error(`Could not load module: ${moduleName}, error: `, e);
+    console.error(`Could not load module: ${doc.moduleName}, error: `, e);
   }
 }
 

@@ -1,8 +1,12 @@
 import * as React from 'react';
 import './app.css';
-import { loadAllModules, loadModule } from './utils';
+import { fetchModulesManifest, loadAllModules, loadModule } from './utils';
 
 function App() {
+  React.useEffect(() => {
+    fetchModulesManifest();
+  }, []);
+
   return (
     <div
       style={{

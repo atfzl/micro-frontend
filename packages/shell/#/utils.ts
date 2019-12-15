@@ -1,4 +1,14 @@
-let modulesManifest: any = [];
+interface ModuleDoc {
+  _id: string;
+  _rev: string;
+  moduleName: string;
+  jsUrl: string;
+  targetSelector: string;
+  active: boolean;
+  version: string;
+}
+
+let modulesManifest: Array<ModuleDoc> = [];
 
 export function fetchModulesManifest() {
   fetch('http://localhost:5984/micro-frontend/_find', {
@@ -10,6 +20,7 @@ export function fetchModulesManifest() {
   })
     .then(a => a.json())
     .then(response => {
+      console.info('Modules Manifest loaded');
       modulesManifest = response.docs;
     });
 }
@@ -19,12 +30,12 @@ export function loadAllModules() {
 }
 
 export function loadModule(moduleName: string) {
-  renderModule(
-    modulesManifest.find((doc: any) => doc.moduleName === moduleName),
-  );
+  modulesManifest
+    .filter(doc => doc.moduleName === moduleName)
+    .forEach(renderModule);
 }
 
-async function renderModule(doc: any) {
+async function renderModule(doc: ModuleDoc) {
   try {
     const target = document.querySelector(doc.targetSelector)!;
 

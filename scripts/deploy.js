@@ -12,31 +12,23 @@ function deploy() {
   }
 
   const deployedUrl = child_process
-    .execSync('now | grep https')
+    .execSync("now | grep https")
     .toString()
     .trim();
 
   console.log("deployed URL:", deployedUrl);
 
-  const jsUrl = deployedUrl + '/bundle.js';
+  const jsUrl = deployedUrl + "/bundle.js";
 
   axios
-    .post("http://localhost:5984/micro-frontend/_find", {
-      selector: {
-        moduleName: {
-          $eq: moduleName
-        },
-        active: {
-          $eq: true
-        }
-      }
-    })
+    .get(`http://localhost:5657/modules/${moduleName}`)
     .then(response => {
-      const doc = response.data.docs[0];
+      const doc = response.data;
 
-      return axios.put(`http://localhost:5984/micro-frontend/${doc._id}`, {
+      return axios.patch(`http://localhost:5657/modules/${doc.id}`, {
         ...doc,
-        jsUrl
+        jsUrl,
+        version: doc.version + 1
       });
     })
     .then(() => {

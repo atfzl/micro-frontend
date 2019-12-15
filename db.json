@@ -1,0 +1,18 @@
+{
+  "modules": [
+    {
+      "id": "SolidCounter",
+      "jsUrl": "https://solid-counter-9jnam8f8i.now.sh/bundle.js",
+      "targetSelector": "#solid-counter-module",
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "ReactCounter",
+      "jsUrl": "https://react-counter-8cjii252q.now.sh/bundle.js",
+      "targetSelector": "#react-counter-module",
+      "active": true,
+      "version": 2
+    }
+  ]
+}
